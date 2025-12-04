@@ -69,15 +69,15 @@ sudo apt update && sudo apt install dms-git
 
 ```bash
 # 1. Add danklinux PPA for dependencies
-sudo add-apt-repository ppa:avengemedia/danklinux
+sudo add-apt-repository ppa:glostis/danklinux
 sudo apt update
 
 # 2. Add DMS stable PPA
-sudo add-apt-repository ppa:avengemedia/dms
+sudo add-apt-repository ppa:glostis/dms
 sudo apt update && sudo apt install dms
 
 # Or for nightly builds (dms-git)
-sudo add-apt-repository ppa:avengemedia/dms-git
+sudo add-apt-repository ppa:glostis/dms-git
 sudo apt update && sudo apt install dms-git
 ```
 
@@ -164,7 +164,7 @@ sudo apt update && sudo apt install niri quickshell-git matugen cliphist danksea
 
 ```bash
 # Add PPA and install packages
-sudo add-apt-repository ppa:avengemedia/danklinux
+sudo add-apt-repository ppa:glostis/danklinux
 sudo apt update
 sudo apt install niri quickshell-git matugen cliphist danksearch dgop
 ```
@@ -223,9 +223,9 @@ All packages support:
 - **Dependencies**: [home:AvengeMedia:danklinux](https://build.opensuse.org/project/show/home:AvengeMedia:danklinux)
 
 ### Launchpad PPA (Ubuntu)
-- **DMS Stable**: [ppa:avengemedia/dms](https://launchpad.net/~avengemedia/+archive/ubuntu/dms)
-- **DMS Nightly**: [ppa:avengemedia/dms-git](https://launchpad.net/~avengemedia/+archive/ubuntu/dms-git)
-- **Dependencies**: [ppa:avengemedia/danklinux](https://launchpad.net/~avengemedia/+archive/ubuntu/danklinux)
+- **DMS Stable**: [ppa:glostis/dms](https://launchpad.net/~glostis/+archive/ubuntu/dms)
+- **DMS Nightly**: [ppa:glostis/dms-git](https://launchpad.net/~glostis/+archive/ubuntu/dms-git)
+- **Dependencies**: [ppa:glostis/danklinux](https://launchpad.net/~glostis/+archive/ubuntu/danklinux)
 
 ### Fedora COPR
 - **DMS Stable**: [avengemedia/dms](https://copr.fedorainfracloud.org/coprs/avengemedia/dms/)

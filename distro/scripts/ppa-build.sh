@@ -792,7 +792,7 @@ cd - > /dev/null
 # Check if this version already exists on PPA (only in CI environment)
 if command -v rmadison >/dev/null 2>&1; then
     info "Checking if version already exists on PPA..."
-    PPA_VERSION_CHECK=$(rmadison -u ppa:avengemedia/danklinux "$PACKAGE_NAME" 2>/dev/null | grep "$VERSION" || true)
+    PPA_VERSION_CHECK=$(rmadison -u ppa:glostis/danklinux "$PACKAGE_NAME" 2>/dev/null | grep "$VERSION" || true)
     if [ -n "$PPA_VERSION_CHECK" ]; then
         warn "Version $VERSION already exists on PPA:"
         echo "$PPA_VERSION_CHECK"
@@ -918,10 +918,10 @@ if yes | DEBIAN_FRONTEND=noninteractive debuild -S $DEBUILD_SOURCE_FLAG -d; then
     echo "     ls -lh ${SOURCE_NAME}_${CHANGELOG_VERSION}*"
     echo
     echo "  2. Upload to PPA (stable):"
-    echo "     dput ppa:avengemedia/dms ${SOURCE_NAME}_${CHANGELOG_VERSION}_source.changes"
+    echo "     dput ppa:glostis/dms ${SOURCE_NAME}_${CHANGELOG_VERSION}_source.changes"
     echo
     echo "  3. Or upload to PPA (nightly):"
-    echo "     dput ppa:avengemedia/dms-git ${SOURCE_NAME}_${CHANGELOG_VERSION}_source.changes"
+    echo "     dput ppa:glostis/dms-git ${SOURCE_NAME}_${CHANGELOG_VERSION}_source.changes"
     echo
     echo "  4. Or use the upload script:"
     echo "     ./common/upload-ppa.sh $(dirname "$PACKAGE_DIR")/${SOURCE_NAME}_${CHANGELOG_VERSION}_source.changes dms"

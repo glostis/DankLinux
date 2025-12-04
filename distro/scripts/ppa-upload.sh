@@ -69,7 +69,7 @@ PARENT_DIR=$(dirname "$PACKAGE_DIR")
 
 info "Building and uploading: $PACKAGE_NAME"
 info "Package directory: $PACKAGE_DIR"
-info "PPA: ppa:avengemedia/$PPA_NAME"
+info "PPA: ppa:glostis/$PPA_NAME"
 info "Ubuntu series: $UBUNTU_SERIES"
 echo
 
@@ -134,7 +134,7 @@ if [ "$PPA_NAME" = "danklinux" ] || [ "$PPA_NAME" = "dms" ] || [ "$PPA_NAME" = "
     # lftp needs to change to the build directory first, then upload files
     LFTP_SCRIPT=$(mktemp)
     cat > "$LFTP_SCRIPT" <<EOF
-cd ~avengemedia/ubuntu/$PPA_NAME/
+cd ~glostis/ubuntu/$PPA_NAME/
 lcd $BUILD_DIR
 mput $CHANGES_BASENAME
 mput $DSC_FILE
@@ -168,7 +168,7 @@ fi
 echo
 success "Package uploaded successfully!"
 info "Monitor build progress at:"
-echo "  https://launchpad.net/~avengemedia/+archive/ubuntu/$PPA_NAME/+packages"
+echo "  https://launchpad.net/~glostis/+archive/ubuntu/$PPA_NAME/+packages"
 echo
 
 # Step 3: Cleanup (unless --keep-builds is specified)

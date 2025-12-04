@@ -56,7 +56,7 @@ fi
 # Get absolute path
 CHANGES_FILE=$(realpath "$CHANGES_FILE")
 
-info "Uploading to PPA: ppa:avengemedia/$PPA_NAME"
+info "Uploading to PPA: ppa:glostis/$PPA_NAME"
 info "Changes file: $CHANGES_FILE"
 
 # Check if dput or lftp is installed
@@ -82,17 +82,17 @@ if [ ! -f "$HOME/.dput.cf" ]; then
     echo
     info "Or create it manually with:"
     cat <<'EOF'
-[ppa:avengemedia/dms]
+[ppa:glostis/dms]
 fqdn = ppa.launchpad.net
 method = ftp
-incoming = ~avengemedia/ubuntu/dms/
+incoming = ~glostis/ubuntu/dms/
 login = anonymous
 allow_unsigned_uploads = 0
 
-[ppa:avengemedia/dms-git]
+[ppa:glostis/dms-git]
 fqdn = ppa.launchpad.net
 method = ftp
-incoming = ~avengemedia/ubuntu/dms-git/
+incoming = ~glostis/ubuntu/dms-git/
 login = anonymous
 allow_unsigned_uploads = 0
 EOF
@@ -100,15 +100,15 @@ EOF
 fi
 
 # Check if PPA is configured in dput.cf
-if ! grep -q "^\[ppa:avengemedia/$PPA_NAME\]" "$HOME/.dput.cf"; then
-    error "PPA 'ppa:avengemedia/$PPA_NAME' not found in ~/.dput.cf"
+if ! grep -q "^\[ppa:glostis/$PPA_NAME\]" "$HOME/.dput.cf"; then
+    error "PPA 'ppa:glostis/$PPA_NAME' not found in ~/.dput.cf"
     echo
     info "Add this to ~/.dput.cf:"
     cat <<EOF
-[ppa:avengemedia/$PPA_NAME]
+[ppa:glostis/$PPA_NAME]
 fqdn = ppa.launchpad.net
 method = ftp
-incoming = ~avengemedia/ubuntu/$PPA_NAME/
+incoming = ~glostis/ubuntu/$PPA_NAME/
 login = anonymous
 allow_unsigned_uploads = 0
 EOF
@@ -139,7 +139,7 @@ fi
 
 # Ask for confirmation
 echo
-warn "About to upload to: ppa:avengemedia/$PPA_NAME"
+warn "About to upload to: ppa:glostis/$PPA_NAME"
 read -p "Continue? (y/N) " -n 1 -r
 echo
 if [[ ! $REPLY =~ ^[Yy]$ ]]; then
@@ -151,12 +151,12 @@ fi
 info "Uploading to Launchpad..."
 echo
 
-if dput "ppa:avengemedia/$PPA_NAME" "$CHANGES_FILE"; then
+if dput "ppa:glostis/$PPA_NAME" "$CHANGES_FILE"; then
     echo
     success "Upload successful!"
     echo
     info "Monitor build progress at:"
-    echo "  https://launchpad.net/~avengemedia/+archive/ubuntu/$PPA_NAME/+packages"
+    echo "  https://launchpad.net/~glostis/+archive/ubuntu/$PPA_NAME/+packages"
     echo
     info "Builds typically take 5-30 minutes depending on:"
     echo "  - Build queue length"
@@ -164,7 +164,7 @@ if dput "ppa:avengemedia/$PPA_NAME" "$CHANGES_FILE"; then
     echo "  - Number of target Ubuntu series"
     echo
     info "Once built, users can install with:"
-    echo "  sudo add-apt-repository ppa:avengemedia/$PPA_NAME"
+    echo "  sudo add-apt-repository ppa:glostis/$PPA_NAME"
     echo "  sudo apt update"
     echo "  sudo apt install $PACKAGE_NAME"
 
