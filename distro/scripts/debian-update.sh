@@ -44,13 +44,7 @@ error() { echo -e "${RED}[ERROR]${NC} $1" >&2; }
 
 # Package definitions: "name:repo:type" (type: git or release)
 PACKAGES=(
-    "niri-git:YaLTeR/niri:git"
-    "quickshell-git:quickshell-mirror/quickshell:git"
     "niri:YaLTeR/niri:release"
-    "cliphist:sentriz/cliphist:release"
-    "matugen:InioX/matugen:release"
-    "danksearch:AvengeMedia/danksearch:release"
-    "dgop:AvengeMedia/dgop:release"
 )
 
 get_latest_tag() {
