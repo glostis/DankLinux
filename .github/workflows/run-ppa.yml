@@ -187,6 +187,6 @@ jobs:
             echo "- **Uploaded Packages**: ${{ steps.packages.outputs.packages }}" >> $GITHUB_STEP_SUMMARY
           fi
           
-          echo "- **PPA**: https://launchpad.net/~avengemedia/+archive/ubuntu/danklinux/+packages" >> $GITHUB_STEP_SUMMARY
+          echo "- **PPA**: https://launchpad.net/~glostis/+archive/ubuntu/danklinux/+packages" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "Builds will appear once Launchpad processes the uploads." >> $GITHUB_STEP_SUMMARY
