@@ -373,7 +373,7 @@ if [ "$IS_GIT_PACKAGE" = true ] && [ -n "$GIT_REPO" ]; then
 
   * Git snapshot (commit ${GIT_COMMIT_COUNT}: ${GIT_COMMIT_HASH})
 
- -- Avenge Media <AvengeMedia.US@gmail.com>  $(date -R)"
+ -- Guillaume Lostis <glostis@gmail.com>  $(date -R)"
         
         # Write new changelog (new entry, blank line, then old entries)
         echo "$CHANGELOG_ENTRY" > debian/changelog
@@ -545,7 +545,7 @@ elif [ -n "$GIT_REPO" ]; then
 
   * ${CHANGELOG_MSG}
 
- -- Avenge Media <AvengeMedia.US@gmail.com>  $(date -R)"
+ -- Guillaume Lostis <glostis@gmail.com>  $(date -R)"
             echo "$CHANGELOG_ENTRY" > debian/changelog
             if [ -n "$CHANGELOG_CONTENT" ]; then
                 echo "" >> debian/changelog
