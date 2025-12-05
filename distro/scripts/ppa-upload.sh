@@ -36,21 +36,21 @@ if [ ${#ARGS[@]} -lt 2 ]; then
     echo "Arguments:"
     echo "  package-dir     : Path to package directory (e.g., ../dgop)"
     echo "  ppa-name        : PPA name (e.g., danklinux, dms, dms-git)"
-    echo "  ubuntu-series   : Ubuntu series (optional, default: questing)"
-    echo "                    Supported: questing (25.10) and newer only"
+    echo "  ubuntu-series   : Ubuntu series (optional, default: noble)"
+    echo "                    Supported: noble (25.10) and newer only"
     echo "                    Note: Requires Qt 6.6+ (quickshell requirement)"
     echo "  --keep-builds   : Keep build artifacts after upload (optional)"
     echo
     echo "Examples:"
-    echo "  $0 ../dgop danklinux questing"
-    echo "  $0 ../quickshell-git danklinux questing --keep-builds"
-    echo "  $0 ../quickshell-git danklinux  # Defaults to questing"
+    echo "  $0 ../dgop danklinux noble"
+    echo "  $0 ../quickshell-git danklinux noble --keep-builds"
+    echo "  $0 ../quickshell-git danklinux  # Defaults to noble"
     exit 1
 fi
 
 PACKAGE_DIR="${ARGS[0]}"
 PPA_NAME="${ARGS[1]}"
-UBUNTU_SERIES="${ARGS[2]:-questing}"
+UBUNTU_SERIES="${ARGS[2]:-noble}"
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 BUILD_SCRIPT="$SCRIPT_DIR/ppa-build.sh"

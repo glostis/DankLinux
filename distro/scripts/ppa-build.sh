@@ -3,8 +3,8 @@
 # Usage: ./create-source.sh <package-dir> [ubuntu-series]
 #
 # Example:
-#   ./create-source.sh ../matugen questing
-#   ./create-source.sh ../quickshell-git questing
+#   ./create-source.sh ../matugen noble
+#   ./create-source.sh ../quickshell-git noble
 
 set -e
 
@@ -24,18 +24,18 @@ if [ $# -lt 1 ]; then
     echo
     echo "Arguments:"
     echo "  package-dir     : Path to package directory (e.g., ../matugen)"
-    echo "  ubuntu-series   : Ubuntu series (optional, default: questing)"
-    echo "                    Supported: questing (25.10) and newer only"
+    echo "  ubuntu-series   : Ubuntu series (optional, default: noble)"
+    echo "                    Supported: noble (25.10) and newer only"
     echo "                    Note: Requires Qt 6.6+ (quickshell requirement)"
     echo
     echo "Examples:"
-    echo "  $0 ../matugen questing"
-    echo "  $0 ../quickshell-git questing"
+    echo "  $0 ../matugen noble"
+    echo "  $0 ../quickshell-git noble"
     exit 1
 fi
 
 PACKAGE_DIR="$1"
-UBUNTU_SERIES="${2:-questing}"
+UBUNTU_SERIES="${2:-noble}"
 
 # Validate package directory
 if [ ! -d "$PACKAGE_DIR" ]; then
