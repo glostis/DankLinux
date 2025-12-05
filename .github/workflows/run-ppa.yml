@@ -6,15 +6,19 @@ on:
       package:
         description: 'Package to upload (cliphist, matugen, niri, niri-git, quickshell, quickshell-git, xwayland-satellite, xwayland-satellite-git, danksearch, dgop, or all)'
         required: false
-        default: 'auto'
+        default: 'niri'
       force_upload:
         description: 'Force upload without version check'
         required: false
-        default: 'false'
+        default: 'true'
         type: choice
         options:
           - 'false'
           - 'true'
+      ubuntu_series:
+        description: 'Ubuntu series to build for (e.g., noble, jammy)'
+        required: false
+        default: 'noble'
       rebuild_release:
         description: 'Release number for rebuilds (e.g., 2, 3, 4 for ppa2, ppa3, ppa4)'
         required: false
@@ -154,7 +158,7 @@ jobs:
               echo "🔄 Using rebuild release number: ppa$REBUILD_RELEASE"
             fi
             echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-            bash distro/scripts/ppa-upload.sh "distro/ubuntu/$pkg" danklinux questing || echo "⚠️ Failed to upload $pkg"
+            bash distro/scripts/ppa-upload.sh "distro/ubuntu/$pkg" danklinux "${{ github.event.inputs.ubuntu_series }}" || echo "⚠️ Failed to upload $pkg"
           done
       
       - name: Commit changelog updates
