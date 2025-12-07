@@ -5,12 +5,12 @@
 #
 # Examples:
 #   ./ppa-upload.sh                           # Interactive menu
-#   ./ppa-upload.sh ghostty                   # Single package → questing + resolute
-#   ./ppa-upload.sh ghostty 8                 # Native: questing ppa8, resolute ppa9 (auto +1)
+#   ./ppa-upload.sh ghostty                   # Single package → noble + resolute
+#   ./ppa-upload.sh ghostty 8                 # Native: noble ppa8, resolute ppa9 (auto +1)
 #   ./ppa-upload.sh ghostty resolute          # 26.04 only (no need to repeat "danklinux")
 #   ./ppa-upload.sh all                       # All packages (each → both series)
 #   ./ppa-upload.sh all resolute 2            # All packages, resolute only, ppa2 rebuild
-#   ./ppa-upload.sh ghostty danklinux questing --build-only   # Explicit PPA + one series
+#   ./ppa-upload.sh ghostty danklinux noble --build-only   # Explicit PPA + one series
 #   ./ppa-upload.sh ghostty danklinux resolute --build-only
 #   ./ppa-upload.sh niri-git 2                # Rebuild with ppa2 on both series
 #   ./ppa-upload.sh niri-git --rebuild=2      # Rebuild with ppa2 (flag syntax)
@@ -88,7 +88,7 @@ if [[ ${#POSITIONAL_ARGS[@]} -gt 0 ]]; then
 fi
 
 # Shorthand: "ghostty resolute" (package + series; PPA defaults to danklinux)
-if [[ ${#POSITIONAL_ARGS[@]} -eq 2 ]] && [[ "${POSITIONAL_ARGS[1]}" == "questing" || "${POSITIONAL_ARGS[1]}" == "resolute" ]]; then
+if [[ ${#POSITIONAL_ARGS[@]} -eq 2 ]] && [[ "${POSITIONAL_ARGS[1]}" == "noble" || "${POSITIONAL_ARGS[1]}" == "resolute" ]]; then
     PACKAGE="${POSITIONAL_ARGS[0]}"
     PPA_NAME="danklinux"
     UBUNTU_SERIES_RAW="${POSITIONAL_ARGS[1]}"
@@ -96,11 +96,11 @@ fi
 
 SERIES_LIST=()
 if [[ -z "$UBUNTU_SERIES_RAW" ]]; then
-    SERIES_LIST=(questing resolute)
-elif [[ "$UBUNTU_SERIES_RAW" == "questing" || "$UBUNTU_SERIES_RAW" == "resolute" ]]; then
+    SERIES_LIST=(noble resolute)
+elif [[ "$UBUNTU_SERIES_RAW" == "noble" || "$UBUNTU_SERIES_RAW" == "resolute" ]]; then
     SERIES_LIST=("$UBUNTU_SERIES_RAW")
 else
-    error "Invalid Ubuntu series: $UBUNTU_SERIES_RAW (use questing, resolute, or omit for both)"
+    error "Invalid Ubuntu series: $UBUNTU_SERIES_RAW (use noble, resolute, or omit for both)"
     exit 1
 fi
 
@@ -156,7 +156,7 @@ if [[ "$PACKAGE" == "all" ]]; then
         info "Processing $pkg..."
         echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
         BUILD_ARGS=("$pkg" "$PPA_NAME")
-        # Forward a single explicit series (e.g. all resolute 2); otherwise children default to questing+resolute
+        # Forward a single explicit series (e.g. all resolute 2); otherwise children default to noble+resolute
         if [[ ${#SERIES_LIST[@]} -eq 1 ]]; then
             BUILD_ARGS+=("${SERIES_LIST[0]}")
         fi
@@ -213,8 +213,8 @@ PACKAGE_DIR="$(cd "$PACKAGE_DIR" && pwd)"
 OUTPUT_DIR="$(dirname "$PACKAGE_DIR")"
 
 if [[ ${#SERIES_LIST[@]} -gt 1 ]]; then
-    # Native 3.0 packages: same version string => same tarball name; questing vs resolute trees differ
-    # and Launchpad rejects the second upload. Use ppaN for questing and ppa(N+1) for resolute.
+    # Native 3.0 packages: same version string => same tarball name; noble vs resolute trees differ
+    # and Launchpad rejects the second upload. Use ppaN for noble and ppa(N+1) for resolute.
     SOURCE_FORMAT_LINE=$(head -1 "$PACKAGE_DIR/debian/source/format" 2>/dev/null || echo "")
     IS_NATIVE_DUAL=false
     if [[ "$SOURCE_FORMAT_LINE" == *"native"* ]]; then
@@ -395,7 +395,7 @@ case "$PACKAGE_NAME" in
     ghostty)
         FORCE_SA="true"
         
-        # Changelog must use $UBUNTU_SERIES (questing/resolute), not the committed template distribution
+        # Changelog must use $UBUNTU_SERIES (noble/resolute), not the committed template distribution
         CURRENT_VERSION=$(dpkg-parsechangelog -S Version 2>/dev/null || echo "")
         OLD_DIST=$(dpkg-parsechangelog -S Distribution 2>/dev/null || echo "")
         MAINTAINER=$(dpkg-parsechangelog -S Maintainer)
@@ -534,11 +534,11 @@ if [ "$IS_GIT_PACKAGE" = true ] && [ -n "$GIT_REPO" ]; then
             PPA_NUM=$REBUILD_RELEASE
             info "🔄 Using manual rebuild release number: ppa$PPA_NUM"
         elif [[ "$CURRENT_VERSION" =~ ^${ESCAPED_BASE}ppa([0-9]+)$ ]]; then
-            # In CI, skip if same version (no new commits)
-            if [ -n "${GITHUB_ACTIONS:-}" ] || [ -n "${CI:-}" ]; then
-                info "Same commit detected in CI (current: $CURRENT_VERSION), skipping build"
-                exit 0
-            fi
+#            # In CI, skip if same version (no new commits)
+#            if [ -n "${GITHUB_ACTIONS:-}" ] || [ -n "${CI:-}" ]; then
+#                info "Same commit detected in CI (current: $CURRENT_VERSION), skipping build"
+#                exit 0
+#            fi
             error "Same commit detected ($CURRENT_VERSION) but no rebuild number specified"
             error "To rebuild, explicitly specify a rebuild number:"
             error "  ./distro/scripts/ppa-upload.sh $PACKAGE_NAME 2"
@@ -563,7 +563,7 @@ if [ "$IS_GIT_PACKAGE" = true ] && [ -n "$GIT_REPO" ]; then
 
   * Git snapshot (commit ${GIT_COMMIT_COUNT}: ${GIT_COMMIT_HASH})
 
- -- Avenge Media <AvengeMedia.US@gmail.com>  $(date -R)"
+ -- Guillaume Lostis <glostis@gmail.com>  $(date -R)"
         
         echo "$CHANGELOG_ENTRY" > debian/changelog
         if [ -n "$CHANGELOG_CONTENT" ]; then
@@ -684,11 +684,11 @@ elif [ -n "$GIT_REPO" ] && [ "${SKIP_VERSION_UPDATE:-false}" != "true" ]; then
                 PPA_NUM=$REBUILD_RELEASE
                 info "🔄 Using manual rebuild release number: ppa$PPA_NUM"
             elif [[ "$CURRENT_VERSION" =~ ^${ESCAPED_BASE}ppa([0-9]+)$ ]]; then
-                # In CI, skip if same version
-                if [ -n "${GITHUB_ACTIONS:-}" ] || [ -n "${CI:-}" ]; then
-                    info "Same version detected in CI (current: $CURRENT_VERSION), skipping build"
-                    exit 0
-                fi
+#                # In CI, skip if same version
+#                if [ -n "${GITHUB_ACTIONS:-}" ] || [ -n "${CI:-}" ]; then
+#                    info "Same version detected in CI (current: $CURRENT_VERSION), skipping build"
+#                    exit 0
+#                fi
                 error "Same version detected ($CURRENT_VERSION) but no rebuild number specified"
                 error "To rebuild, explicitly specify a rebuild number:"
                 error "  ./distro/scripts/ppa-upload.sh $PACKAGE_NAME 2"
@@ -708,11 +708,11 @@ elif [ -n "$GIT_REPO" ] && [ "${SKIP_VERSION_UPDATE:-false}" != "true" ]; then
                 PPA_NUM=$REBUILD_RELEASE
                 info "🔄 Using manual rebuild release number: ppa$PPA_NUM"
             elif [[ "$CURRENT_VERSION" =~ ^${ESCAPED_BASE}ppa([0-9]+)$ ]]; then
-                # In CI, skip if same version
-                if [ -n "${GITHUB_ACTIONS:-}" ] || [ -n "${CI:-}" ]; then
-                    info "Same version detected in CI (current: $CURRENT_VERSION), skipping build"
-                    exit 0
-                fi
+#                # In CI, skip if same version
+#                if [ -n "${GITHUB_ACTIONS:-}" ] || [ -n "${CI:-}" ]; then
+#                    info "Same version detected in CI (current: $CURRENT_VERSION), skipping build"
+#                    exit 0
+#                fi
                 error "Same version detected ($CURRENT_VERSION) but no rebuild number specified"
                 error "To rebuild, explicitly specify a rebuild number:"
                 error "  ./distro/scripts/ppa-upload.sh $PACKAGE_NAME 2"
@@ -751,7 +751,7 @@ elif [ -n "$GIT_REPO" ] && [ "${SKIP_VERSION_UPDATE:-false}" != "true" ]; then
 
   * ${CHANGELOG_MSG}
 
- -- Avenge Media <AvengeMedia.US@gmail.com>  $(date -R)"
+ -- Guillaume Lostis <glostis@gmail.com>  $(date -R)"
             echo "$CHANGELOG_ENTRY" > debian/changelog
             if [ -n "$CHANGELOG_CONTENT" ]; then
                 echo "" >> debian/changelog
@@ -790,7 +790,7 @@ elif [ -n "$GIT_REPO" ] && [ "${SKIP_VERSION_UPDATE:-false}" != "true" ]; then
 
   * ${CHANGELOG_MSG}
 
- -- Avenge Media <AvengeMedia.US@gmail.com>  $(date -R)"
+ -- Guillaume Lostis <glostis@gmail.com>  $(date -R)"
             echo "$CHANGELOG_ENTRY" > debian/changelog
             if [ -n "$CHANGELOG_CONTENT" ]; then
                 echo "" >> debian/changelog
@@ -956,7 +956,7 @@ case "$PACKAGE_NAME" in
                     rm -rf vendor .cargo
                     find . -type f -name "*.orig" -exec rm -f {} + || true
                     
-                    # Workaround for Ubuntu questing (arm64 has rustc 1.85.1)
+                    # Workaround for Ubuntu noble (arm64 has rustc 1.85.1)
                     info "Downgrading image for Ubuntu compatibility (rustc 1.85.1)..."
                     cargo update -p image --precise 0.25.9 2>/dev/null || true
                     
@@ -1195,7 +1195,7 @@ esac
 # Check if this version already exists on PPA for this Ubuntu series only (only in CI environment)
 if command -v rmadison >/dev/null 2>&1; then
     info "Checking if version already exists on PPA (series $UBUNTU_SERIES)..."
-    PPA_VERSION_CHECK=$(rmadison -u ppa:avengemedia/danklinux "$PACKAGE_NAME" 2>/dev/null | grep "$UBUNTU_SERIES" | grep "$VERSION" || true)
+    PPA_VERSION_CHECK=$(rmadison -u ppa:glostis/danklinux "$PACKAGE_NAME" 2>/dev/null | grep "$UBUNTU_SERIES" | grep "$VERSION" || true)
     if [ -n "$PPA_VERSION_CHECK" ]; then
         warn "Version $VERSION already exists on PPA:"
         echo "$PPA_VERSION_CHECK"
@@ -1271,7 +1271,7 @@ if yes | DEBIAN_FRONTEND=noninteractive debuild -S $DEBUILD_SOURCE_FLAG -d; then
     # Upload to PPA (unless --build-only)
     if [ "$BUILD_ONLY" = "false" ]; then
         echo
-        info "==> Uploading to PPA: ppa:avengemedia/$PPA_NAME"
+        info "==> Uploading to PPA: ppa:glostis/$PPA_NAME"
         
         # Get file paths
         CHANGES_BASENAME=$(basename "$CHANGES_FILE")
@@ -1312,7 +1312,7 @@ if yes | DEBIAN_FRONTEND=noninteractive debuild -S $DEBUILD_SOURCE_FLAG -d; then
         LFTP_SCRIPT=$(mktemp "$TEMP_BASE/ppa_lftp_XXXXXX")
         
         # Build upload commands
-        UPLOAD_COMMANDS="cd ~avengemedia/ubuntu/$PPA_NAME/
+        UPLOAD_COMMANDS="cd ~glostis/ubuntu/$PPA_NAME/
 lcd $TEMP_DIR
 mput $UPLOAD_TARBALL
 mput $DSC_FILE"
@@ -1334,7 +1334,7 @@ bye"
             echo
             success "Upload successful!"
             info "Monitor build progress at:"
-            echo "  https://launchpad.net/~avengemedia/+archive/ubuntu/$PPA_NAME/+packages"
+            echo "  https://launchpad.net/~glostis/+archive/ubuntu/$PPA_NAME/+packages"
         else
             rm -f "$LFTP_SCRIPT"
             error "Upload failed!"

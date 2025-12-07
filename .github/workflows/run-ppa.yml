@@ -32,8 +32,8 @@ on:
         description: 'Release number for rebuilds (e.g., 2, 3, 4 for ppa2, ppa3, ppa4)'
         required: false
         default: ''
-  schedule:
-    - cron: '0 */6 * * *'  # Every 6 hours (00:00, 06:00, 12:00, 18:00 UTC)
+ # schedule:
+   # - cron: '0 */6 * * *'  # Every 6 hours (00:00, 06:00, 12:00, 18:00 UTC)
 
 jobs:
   check-updates:
@@ -184,7 +184,7 @@ jobs:
               echo "🔄 Using rebuild release number: ppa$REBUILD_RELEASE"
             fi
             echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-            if ! bash distro/scripts/ppa/ppa-upload.sh "$pkg" danklinux "" ${REBUILD_RELEASE:+"$REBUILD_RELEASE"}; then
+            if ! bash distro/scripts/ppa/ppa-upload.sh "$pkg" danklinux "noble" ${REBUILD_RELEASE:+"$REBUILD_RELEASE"}; then
               echo "::error::Upload failed for $pkg"
               exit 1
             fi
@@ -214,7 +214,7 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add distro/ubuntu/*/debian/changelog
           git commit -m "ci: Auto-update PPA packages [${{ steps.changed-packages.outputs.packages }}]" -m "🤖 Automated by GitHub Actions"
-          git pull --rebase origin master
+          git pull --rebase origin glostis
           git push
       
       - name: Summary
@@ -228,6 +228,6 @@ jobs:
             echo "- **Uploaded Packages**: ${{ steps.packages.outputs.packages }}" >> $GITHUB_STEP_SUMMARY
           fi
           
-          echo "- **PPA**: https://launchpad.net/~avengemedia/+archive/ubuntu/danklinux/+packages" >> $GITHUB_STEP_SUMMARY
+          echo "- **PPA**: https://launchpad.net/~glostis/+archive/ubuntu/danklinux/+packages" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "Builds will appear once Launchpad processes the uploads." >> $GITHUB_STEP_SUMMARY

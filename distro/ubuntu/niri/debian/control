@@ -3,7 +3,7 @@ Section: x11
 Priority: optional
 Maintainer: Avenge Media <AvengeMedia.US@gmail.com>
 Build-Depends: debhelper-compat (= 13),
-               cargo (>= 1.80.1),
+               cargo-1.85 (>= 1.80.1),
                libudev-dev,
                libwayland-dev,
                libseat-dev,
@@ -25,7 +25,7 @@ Package: niri
 Architecture: any
 Depends: ${shlibs:Depends},
          ${misc:Depends},
-         libdisplay-info3 | libdisplay-info2,
+         libdisplay-info3 | libdisplay-info1,
          libseat1,
          xwayland-satellite
 Recommends: alacritty,

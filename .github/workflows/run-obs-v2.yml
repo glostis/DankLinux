@@ -35,8 +35,8 @@ on:
           - debian
           - opensuse
         default: "both"
-  schedule:
-    - cron: "0 */6 * * *" # Every 6 hours for git packages
+ # schedule:
+   # - cron: "0 */6 * * *" # Every 6 hours for git packages
 
 jobs:
   build-and-upload:
