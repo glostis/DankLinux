@@ -1,5 +1,5 @@
-niri (25.11ppa7) noble; urgency=medium
+niri (25.11ppa8) noble; urgency=medium
 
-  * Rebuild for packaging fixes (ppa7)
+  * Rebuild for packaging fixes (ppa8)
 
- -- Guillaume Lostis <glostis@gmail.com>  Sat, 06 Dec 2025 08:54:55 +0000
+ -- Guillaume Lostis <glostis@gmail.com>  Sun, 07 Dec 2025 10:19:35 +0000
