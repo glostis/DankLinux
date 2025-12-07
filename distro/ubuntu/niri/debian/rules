@@ -1,5 +1,7 @@
 #!/usr/bin/make -f
 
+export PATH = $(PATH):/usr/lib/rust-1.85/bin/
+
 export DH_VERBOSE = 1
 
 # Rust build environment - use local directories (Launchpad build is sandboxed)
@@ -35,7 +37,7 @@ override_dh_auto_build:
 
 	# Build with cargo using vendored dependencies (no internet access on Launchpad)
 	cd niri-$(BASE_VERSION) && \
-		cargo-1.85 build --offline --release --features default -j$(NCPU)
+		cargo build --offline --release --features default -j$(NCPU)
 
 	# Generate shell completions
 	cd niri-$(BASE_VERSION) && \
@@ -84,7 +86,7 @@ override_dh_auto_clean:
 	# Don't delete niri-$(BASE_VERSION) directory - it's part of the source package (native format)
 	# Clean up cargo cache and build artifacts
 	rm -rf .cargo
-	if [ -d niri-$(BASE_VERSION) ]; then cd niri-$(BASE_VERSION) && cargo-1.85 clean 2>/dev/null || true; fi
+	if [ -d niri-$(BASE_VERSION) ]; then cd niri-$(BASE_VERSION) && cargo clean 2>/dev/null || true; fi
 	dh_auto_clean
 
 # Prevent dh_clean from removing .orig files in vendor directories
