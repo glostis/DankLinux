@@ -1,6 +1,6 @@
 #!/usr/bin/make -f
 
-export PATH = $(PATH):/usr/lib/rust-1.85/bin/
+export PATH = /usr/lib/rust-1.85/bin/:/usr/bin
 
 export DH_VERBOSE = 1
 
