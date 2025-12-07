@@ -25,7 +25,7 @@ Package: niri
 Architecture: any
 Depends: ${shlibs:Depends},
          ${misc:Depends},
-         libdisplay-info2,
+         libdisplay-info1,
          libseat1,
          xwayland-satellite
 Recommends: alacritty,
