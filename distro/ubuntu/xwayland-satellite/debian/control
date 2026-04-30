@@ -3,8 +3,8 @@ Section: x11
 Priority: optional
 Maintainer: Avenge Media <AvengeMedia.US@gmail.com>
 Build-Depends: debhelper-compat (= 13),
-               cargo,
-               rustc (>= 1.83),
+               cargo-1.85,
+               rustc-1.85 (>= 1.83),
                pkg-config,
                libwayland-dev,
                libxcb1-dev,

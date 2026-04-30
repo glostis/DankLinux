@@ -534,11 +534,11 @@ if [ "$IS_GIT_PACKAGE" = true ] && [ -n "$GIT_REPO" ]; then
             PPA_NUM=$REBUILD_RELEASE
             info "🔄 Using manual rebuild release number: ppa$PPA_NUM"
         elif [[ "$CURRENT_VERSION" =~ ^${ESCAPED_BASE}ppa([0-9]+)$ ]]; then
-            # In CI, skip if same version (no new commits)
-            if [ -n "${GITHUB_ACTIONS:-}" ] || [ -n "${CI:-}" ]; then
-                info "Same commit detected in CI (current: $CURRENT_VERSION), skipping build"
-                exit 0
-            fi
+#            # In CI, skip if same version (no new commits)
+#            if [ -n "${GITHUB_ACTIONS:-}" ] || [ -n "${CI:-}" ]; then
+#                info "Same commit detected in CI (current: $CURRENT_VERSION), skipping build"
+#                exit 0
+#            fi
             error "Same commit detected ($CURRENT_VERSION) but no rebuild number specified"
             error "To rebuild, explicitly specify a rebuild number:"
             error "  ./distro/scripts/ppa-upload.sh $PACKAGE_NAME 2"
@@ -563,7 +563,7 @@ if [ "$IS_GIT_PACKAGE" = true ] && [ -n "$GIT_REPO" ]; then
 
   * Git snapshot (commit ${GIT_COMMIT_COUNT}: ${GIT_COMMIT_HASH})
 
- -- Avenge Media <AvengeMedia.US@gmail.com>  $(date -R)"
+ -- Guillaume Lostis <glostis@gmail.com>  $(date -R)"
         
         echo "$CHANGELOG_ENTRY" > debian/changelog
         if [ -n "$CHANGELOG_CONTENT" ]; then
@@ -684,11 +684,11 @@ elif [ -n "$GIT_REPO" ] && [ "${SKIP_VERSION_UPDATE:-false}" != "true" ]; then
                 PPA_NUM=$REBUILD_RELEASE
                 info "🔄 Using manual rebuild release number: ppa$PPA_NUM"
             elif [[ "$CURRENT_VERSION" =~ ^${ESCAPED_BASE}ppa([0-9]+)$ ]]; then
-                # In CI, skip if same version
-                if [ -n "${GITHUB_ACTIONS:-}" ] || [ -n "${CI:-}" ]; then
-                    info "Same version detected in CI (current: $CURRENT_VERSION), skipping build"
-                    exit 0
-                fi
+#                # In CI, skip if same version
+#                if [ -n "${GITHUB_ACTIONS:-}" ] || [ -n "${CI:-}" ]; then
+#                    info "Same version detected in CI (current: $CURRENT_VERSION), skipping build"
+#                    exit 0
+#                fi
                 error "Same version detected ($CURRENT_VERSION) but no rebuild number specified"
                 error "To rebuild, explicitly specify a rebuild number:"
                 error "  ./distro/scripts/ppa-upload.sh $PACKAGE_NAME 2"
@@ -708,11 +708,11 @@ elif [ -n "$GIT_REPO" ] && [ "${SKIP_VERSION_UPDATE:-false}" != "true" ]; then
                 PPA_NUM=$REBUILD_RELEASE
                 info "🔄 Using manual rebuild release number: ppa$PPA_NUM"
             elif [[ "$CURRENT_VERSION" =~ ^${ESCAPED_BASE}ppa([0-9]+)$ ]]; then
-                # In CI, skip if same version
-                if [ -n "${GITHUB_ACTIONS:-}" ] || [ -n "${CI:-}" ]; then
-                    info "Same version detected in CI (current: $CURRENT_VERSION), skipping build"
-                    exit 0
-                fi
+#                # In CI, skip if same version
+#                if [ -n "${GITHUB_ACTIONS:-}" ] || [ -n "${CI:-}" ]; then
+#                    info "Same version detected in CI (current: $CURRENT_VERSION), skipping build"
+#                    exit 0
+#                fi
                 error "Same version detected ($CURRENT_VERSION) but no rebuild number specified"
                 error "To rebuild, explicitly specify a rebuild number:"
                 error "  ./distro/scripts/ppa-upload.sh $PACKAGE_NAME 2"
@@ -751,7 +751,7 @@ elif [ -n "$GIT_REPO" ] && [ "${SKIP_VERSION_UPDATE:-false}" != "true" ]; then
 
   * ${CHANGELOG_MSG}
 
- -- Avenge Media <AvengeMedia.US@gmail.com>  $(date -R)"
+ -- Guillaume Lostis <glostis@gmail.com>  $(date -R)"
             echo "$CHANGELOG_ENTRY" > debian/changelog
             if [ -n "$CHANGELOG_CONTENT" ]; then
                 echo "" >> debian/changelog
@@ -790,7 +790,7 @@ elif [ -n "$GIT_REPO" ] && [ "${SKIP_VERSION_UPDATE:-false}" != "true" ]; then
 
   * ${CHANGELOG_MSG}
 
- -- Avenge Media <AvengeMedia.US@gmail.com>  $(date -R)"
+ -- Guillaume Lostis <glostis@gmail.com>  $(date -R)"
             echo "$CHANGELOG_ENTRY" > debian/changelog
             if [ -n "$CHANGELOG_CONTENT" ]; then
                 echo "" >> debian/changelog
@@ -1195,7 +1195,7 @@ esac
 # Check if this version already exists on PPA for this Ubuntu series only (only in CI environment)
 if command -v rmadison >/dev/null 2>&1; then
     info "Checking if version already exists on PPA (series $UBUNTU_SERIES)..."
-    PPA_VERSION_CHECK=$(rmadison -u ppa:avengemedia/danklinux "$PACKAGE_NAME" 2>/dev/null | grep "$UBUNTU_SERIES" | grep "$VERSION" || true)
+    PPA_VERSION_CHECK=$(rmadison -u ppa:glostis/danklinux "$PACKAGE_NAME" 2>/dev/null | grep "$UBUNTU_SERIES" | grep "$VERSION" || true)
     if [ -n "$PPA_VERSION_CHECK" ]; then
         warn "Version $VERSION already exists on PPA:"
         echo "$PPA_VERSION_CHECK"
@@ -1271,7 +1271,7 @@ if yes | DEBIAN_FRONTEND=noninteractive debuild -S $DEBUILD_SOURCE_FLAG -d; then
     # Upload to PPA (unless --build-only)
     if [ "$BUILD_ONLY" = "false" ]; then
         echo
-        info "==> Uploading to PPA: ppa:avengemedia/$PPA_NAME"
+        info "==> Uploading to PPA: ppa:glostis/$PPA_NAME"
         
         # Get file paths
         CHANGES_BASENAME=$(basename "$CHANGES_FILE")
@@ -1312,7 +1312,7 @@ if yes | DEBIAN_FRONTEND=noninteractive debuild -S $DEBUILD_SOURCE_FLAG -d; then
         LFTP_SCRIPT=$(mktemp "$TEMP_BASE/ppa_lftp_XXXXXX")
         
         # Build upload commands
-        UPLOAD_COMMANDS="cd ~avengemedia/ubuntu/$PPA_NAME/
+        UPLOAD_COMMANDS="cd ~glostis/ubuntu/$PPA_NAME/
 lcd $TEMP_DIR
 mput $UPLOAD_TARBALL
 mput $DSC_FILE"
@@ -1334,7 +1334,7 @@ bye"
             echo
             success "Upload successful!"
             info "Monitor build progress at:"
-            echo "  https://launchpad.net/~avengemedia/+archive/ubuntu/$PPA_NAME/+packages"
+            echo "  https://launchpad.net/~glostis/+archive/ubuntu/$PPA_NAME/+packages"
         else
             rm -f "$LFTP_SCRIPT"
             error "Upload failed!"
