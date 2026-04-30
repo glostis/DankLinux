@@ -3,6 +3,7 @@ sed -i 's/^    - cron:/   # - cron:/' ./.github/workflows/run-*.yml
 sd 'danklinux ""' 'danklinux "noble"' ./.github/workflows/run-ppa.yml
 sed -i "/# In CI, skip if same version/,/fi/s/^/#/" ./distro/scripts/ppa/ppa-upload.sh
 sd '~avengemedia' '~glostis' ./.github/workflows/run-ppa.yml ./distro/scripts/ppa/ppa-*.sh
+sd 'questing' 'noble' ./distro/scripts/ppa/ppa-upload.sh
 sd 'Avenge Media <AvengeMedia.US@gmail.com>' 'Guillaume Lostis <glostis@gmail.com>' ./distro/scripts/ppa/ppa-*.sh
 sd 'ppa:avengemedia' 'ppa:glostis' ./distro/scripts/ppa/ppa-*.sh
 sd 'cargo' 'cargo-1.85' ./distro/ubuntu/niri/debian/control ./distro/ubuntu/xwayland-satellite/debian/control
